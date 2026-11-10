@@ -8,8 +8,7 @@ masks_dir = './flood_dataset/Dataset/labels'
 output_dir = './Sorted_Flood_Dataset'
 
     
-# 2. Define the classification thresholds based on water percentage
-# Adjust these percentages based on what visually counts as "passable for trucks"
+
 PASSABLE_THRESHOLD = 30.0 # Anything above 30% flood coverage is impassable
 
 # 3. Create the target directories
@@ -25,7 +24,7 @@ for image_name in os.listdir(images_dir):
         
     image_path = os.path.join(images_dir, image_name)
     
-    # Kaggle mask names usually match the image name exactly, or have a suffix like '_mask.png'
+   
     # If the masks are PNGs but images are JPGs, adjust the extension:
     mask_name = image_name.replace('image_', 'label_').replace('.jpg', '.png')
     mask_path = os.path.join(masks_dir, mask_name)
@@ -38,10 +37,13 @@ for image_name in os.listdir(images_dir):
     mask = cv2.imread(mask_path, cv2.IMREAD_GRAYSCALE)
     if mask is None:
         continue
+    
+    height = mask.shape[0]
+    roi_start = int(height * 0.4) 
+    roi_mask = mask[roi_start:, :]
         
     # 6. Calculate the percentage of water
-    # Assuming water is marked as white pixels (pixel value > 127)
-    water_pixels = np.sum(mask > 127)
+    water_pixels = np.sum(mask == 1)
     total_pixels = mask.shape[0] * mask.shape[1]
     water_percentage = (water_pixels / total_pixels) * 100
 

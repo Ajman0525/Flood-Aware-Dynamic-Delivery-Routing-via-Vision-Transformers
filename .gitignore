@@ -1,1 +1,4 @@
-*zip
+*.zip
+*.txt
+Sorted_Flood_Dataset
+bash.sh
