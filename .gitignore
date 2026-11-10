@@ -2,3 +2,7 @@
 *.txt
 Sorted_Flood_Dataset
 bash.sh
+data/
+*.keras
+*.h5
+*.pt
